@@ -1,6 +1,5 @@
 #!/opt/local/bin/python
 
-from __future__ import print_function
 from urllib.parse import urlparse
 import os
 import time
@@ -18,6 +17,9 @@ class GitHub(MinerWithAuthentication):
 
 	def __init__(self, username=None, token=None):
 		super(GitHub, self).__init__(username, token)
+
+	def printConfig(self):
+		print(vars(self))
 
 	def _processResp(self, url, resp):
 		if (resp is None):
@@ -43,6 +45,9 @@ class GitHub(MinerWithAuthentication):
 			self._printWithTimeStamp("Resuming...")
 		if (resp.status_code == 404):
 			return None
+		if (resp.status_code == 401):
+			self._printWithTimeStamp('Authorization failure: Username/password authentication has been removed')
+			return None
 		return resp
 
 	def _getNextURL(self, resp):
@@ -64,9 +69,9 @@ class GitHub(MinerWithAuthentication):
 		return limit['rate']['remaining']
 
 	def printRemainingRateLimit(self):
-		self.__printWithTimeStamp('Remaining api calls: ' + str(self.getRemainingRateLimit()))
+		self._printWithTimeStamp('Remaining api calls: ' + str(self.getRemainingRateLimit()))
 
-	def __getTextFromJson(self, jsonDict):
+	def _getTextFromJson(self, jsonDict):
 		return json.dumps(jsonDict, separators=(',',':'))
 
 	def repoExists(self, user, repo):
