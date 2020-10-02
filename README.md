@@ -88,6 +88,8 @@ This miner is written in Python 3, and should be run in a Python 3.x environment
 | `getRemainingRateLimit()` | `int` | Obtains the numerical count of the remaining GitHub REST API (v3) calls allowed before reaching the rate limit. |
 | `printRemainingRateLimit()` | `None` | Prints the numerical count of the remaining GitHub API (v3) calls allowed before reaching the rate limit. |
 | `repoExists(user, repo)` | `bool` | Calls the GitHub REST API (v3) using a GET request with a URL of the form `https://api.github.com/repos/{user}/{repo}` and indicates whether that response was successful (i.e. whether the repository exists on GitHub). |
+| `writeData(path, data)` | `None` | Writes a UTF-8 encoded JSON file containing the serialized `data` to the indicated `path`. |
+| `readData(path)` | `list` | Reads a UTF-8 encoded JSON file from the indicated `path` using [`bigjson`](https://github.com/henu/bigjson) for handling large JSON datasets and outputting to a Python object that operates similar to a `list`. |
 
 ## License
 

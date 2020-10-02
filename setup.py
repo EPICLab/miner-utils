@@ -4,7 +4,7 @@ import setuptools
 from distutils.core import setup
 
 setup(name='MinerUtils',
-      version='2.5.5',
+      version='2.6.0',
       description='GitHub API Access Utilities',
       author='Nicholas Nelson & Caius Brindescu',
       author_email='nelsonni@oregonstate.edu',
