@@ -1,4 +1,5 @@
 import unittest
+import os
 from minerutils import GitHub
 
 class GitHubTest(unittest.TestCase):
@@ -8,6 +9,8 @@ class GitHubTest(unittest.TestCase):
 
 	def tearDown(self):
 		self.g = None
+		if os.path.exists('sample.json'):
+			os.remove('sample.json')
 
 	def test_repo_exists(self):
 		self.assertTrue(self.g.repoExists("EPICLab", "EPICLab.github.io"))
@@ -43,6 +46,12 @@ class GitHubTest(unittest.TestCase):
 	def test_url_params(self):
 		users = self.g.get('/search/users?q=EPICLab')
 		self.assertTrue(len(users) > 0)
+
+	def test_data_io(self):
+		data = [{"1": "one"}, {"2": "two"}, {"3": "three"}]
+		self.g.writeData('sample.json', data)
+		output = self.g.readData('sample.json')
+		self.assertListEqual(data, output)
 
 if __name__ == '__main__':
 	unittest.main()

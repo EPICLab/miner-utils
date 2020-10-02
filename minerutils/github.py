@@ -8,6 +8,7 @@ import re
 import json
 import datetime
 import sys
+import bigjson
 from minerutils.auth import MinerWithAuthentication
 
 class GitHub(MinerWithAuthentication):
@@ -51,6 +52,8 @@ class GitHub(MinerWithAuthentication):
 		return resp
 
 	def _getNextURL(self, resp):
+		if (resp is None):
+			return None
 		if (not 'Link' in resp.headers):
 			return None
 		linksText = resp.headers['Link']
@@ -80,3 +83,21 @@ class GitHub(MinerWithAuthentication):
 			return False
 		else:
 			return True
+		
+	def writeData(self, path, data):
+		try:
+			with open(path, 'w', encoding='utf8') as f:
+				json.dump(data, f, ensure_ascii=False)
+		except IOError:
+			print("File not accessible")
+
+	def readData(self, path):
+		try:
+			wrapper = None
+			with open(path, 'rb') as f:
+				wrapper = bigjson.load(f, 'utf8').to_python()
+			return wrapper
+		except FileNotFoundError:
+			print("File not found")
+		except IOError:
+			print("File not accessible")
