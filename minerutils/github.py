@@ -40,7 +40,7 @@ class GitHub(MinerWithAuthentication):
 				resetTime = float(resp.headers['X-RateLimit-Reset'])
 				sleepTime = resetTime - time.time()
 				if sleepTime > 0:
-					self._printWithTimeStamp('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
+					self._printWithTimeStamp('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime) + ' seconds')
 					time.sleep(sleepTime)
 				resp = req.get(url, auth=self.auth, params=params, headers=headers)
 			self._printWithTimeStamp("Resuming...")
